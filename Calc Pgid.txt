@@ -1,0 +1,197 @@
+Outer Diameter, mm ComboBox1
+Wall Thickness, mm TextBox2
+NTD (GOST TU) ComboBox2
+Steel Combobox3
+P TextBox4 - kgs/sm2
+P TextBox5 - MPa
+CommandButton1 - Calc!
+
+------------------------------------------------
+Private Sub ComboBox2_Change()
+ComboBox3.Clear
+
+If ComboBox2.Value = "ГОСТ" Then
+ComboBox3.AddItem "Сталь 10"
+ComboBox3.AddItem "Сталь 20"
+ComboBox3.AddItem "Сталь 09Г2С"
+End If
+
+If ComboBox2.Value = "ТУ" Then
+ComboBox3.AddItem "Сталь 20А"
+ComboBox3.AddItem "Сталь 13ХФА"
+End If
+
+ComboBox3.Enabled = True
+
+
+End Sub
+
+Private Sub CommandButton1_Click()
+Dim D As Double
+Dim S As Double
+Dim R As Double
+Dim P As Double
+Dim NPD As Double
+Dim Steel As Double
+Dim ERROR As Boolean
+
+ERROR = False
+
+If ComboBox1.Value = "выберите из списка" Then
+D = MsgBox("Ошибочка, выберите Диаметр трубы!", vbOKOnly, "Ошибка")
+ERROR = True
+Else
+D = ComboBox1.Value
+Label8.Caption = D
+End If
+
+
+If ComboBox2.Value = "выберите из списка" Then
+NPD = MsgBox("Ошибочка, выберите тип нормативной документации!", vbOKOnly, "Ошибка")
+ERROR = True
+Else
+    If ComboBox2.Value = "ГОСТ" Then
+    NPD = 0.4 * 1
+    Label7.Caption = NPD
+    End If
+    If ComboBox2.Value = "ТУ" Then
+    NPD = 0.8 * 1
+    Label7.Caption = NPD
+    End If
+End If
+
+If ComboBox3.Value = "выберите из списка" Or ComboBox3.Value = "" Then
+NPD = MsgBox("Ошибочка, выберите сталь!", vbOKOnly, "Ошибка")
+ERROR = True
+Else
+    If ComboBox3.Value = "Сталь 10" Then
+    Steel = 36
+    Label10.Caption = Steel
+    End If
+    If ComboBox3.Value = "Сталь 20" Then
+    Steel = 42
+    Label10.Caption = Steel
+    End If
+    If ComboBox3.Value = "Сталь 09Г2С" Then
+    Steel = 48
+    Label10.Caption = Steel
+    End If
+    If ComboBox3.Value = "Сталь 20А" Then
+    Steel = 34.5
+    Label10.Caption = Steel
+    End If
+    If ComboBox3.Value = "Сталь 13ХФА" Then
+    Steel = 38
+    Label10.Caption = Steel
+    End If
+End If
+
+If IsNumeric(TextBox2.Value) = False Then
+S = MsgBox("Ошибочка, введите толщину стенки в мм, число. Для разделения целой и дробной частей исп запятую", vbOKOnly, "Ошибка")
+ERROR = True
+Else
+S = TextBox2.Value
+Label9.Caption = S
+End If
+
+If ERROR = False Then
+
+    If TextBox2.Text / ComboBox1.Value > 0.13 Then
+    S = MsgBox("Ошибочка, P исп для вашей трубы должно считаться по другой формуле!", vbOKOnly, "Ошибка")
+    ERROR = True
+    End If
+    
+End If
+
+If ERROR = False Then
+P = Round(200 * S * 0.875 * NPD * Steel / (D - S), 2)
+TextBox4.Text = P
+TextBox5.Text = Round(P * 0.0980665, 2)
+End If
+
+
+End Sub
+
+
+
+Private Sub Label14_Click()
+
+End Sub
+
+Private Sub UserForm_Initialize()
+ComboBox1.AddItem "10"
+ComboBox1.AddItem "10,2"
+ComboBox1.AddItem "12"
+ComboBox1.AddItem "13"
+ComboBox1.AddItem "14"
+ComboBox1.AddItem "16"
+ComboBox1.AddItem "18"
+ComboBox1.AddItem "19"
+ComboBox1.AddItem "20"
+ComboBox1.AddItem "21,3"
+ComboBox1.AddItem "22"
+ComboBox1.AddItem "24"
+ComboBox1.AddItem "25"
+ComboBox1.AddItem "26"
+ComboBox1.AddItem "27"
+ComboBox1.AddItem "28"
+ComboBox1.AddItem "30"
+ComboBox1.AddItem "32"
+ComboBox1.AddItem "33"
+ComboBox1.AddItem "33,7"
+ComboBox1.AddItem "35"
+ComboBox1.AddItem "36"
+ComboBox1.AddItem "38"
+ComboBox1.AddItem "40"
+ComboBox1.AddItem "42"
+ComboBox1.AddItem "44.5"
+ComboBox1.AddItem "45"
+ComboBox1.AddItem "48"
+ComboBox1.AddItem "48.3"
+ComboBox1.AddItem "51"
+ComboBox1.AddItem "53"
+ComboBox1.AddItem "54"
+ComboBox1.AddItem "57"
+ComboBox1.AddItem "60"
+ComboBox1.AddItem "63.5"
+ComboBox1.AddItem "70"
+ComboBox1.AddItem "73"
+ComboBox1.AddItem "76"
+ComboBox1.AddItem "83"
+ComboBox1.AddItem "89"
+ComboBox1.AddItem "95"
+ComboBox1.AddItem "102"
+ComboBox1.AddItem "108"
+ComboBox1.AddItem "114"
+ComboBox1.AddItem "127"
+ComboBox1.AddItem "133"
+ComboBox1.AddItem "140"
+ComboBox1.AddItem "152"
+ComboBox1.AddItem "159"
+ComboBox1.AddItem "168"
+ComboBox1.AddItem "177.8"
+ComboBox1.AddItem "180"
+ComboBox1.AddItem "193.7"
+ComboBox1.AddItem "219"
+ComboBox1.AddItem "244.5"
+ComboBox1.AddItem "273"
+ComboBox1.AddItem "325"
+ComboBox1.AddItem "355.6"
+ComboBox1.AddItem "377"
+ComboBox1.AddItem "406.4"
+ComboBox1.AddItem "426"
+ComboBox1.AddItem "478"
+ComboBox1.AddItem "530"
+ComboBox1.AddItem "630"
+ComboBox1.AddItem "720"
+ComboBox1.AddItem "820"
+ComboBox1.AddItem "920"
+ComboBox1.AddItem "1020"
+ComboBox1.AddItem "1120"
+ComboBox1.AddItem "1220"
+ComboBox1.AddItem "1420"
+
+
+ComboBox2.AddItem "ГОСТ"
+ComboBox2.AddItem "ТУ"
+End Sub
