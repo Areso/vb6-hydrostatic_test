@@ -2,14 +2,14 @@ VERSION 5.00
 Begin VB.Form main 
    BorderStyle     =   1  'Fixed Single
    Caption         =   "Hydrostatic pressure calculator for pipes"
-   ClientHeight    =   5304
+   ClientHeight    =   5148
    ClientLeft      =   36
    ClientTop       =   384
-   ClientWidth     =   6324
+   ClientWidth     =   6168
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
-   ScaleHeight     =   5304
-   ScaleWidth      =   6324
+   ScaleHeight     =   5148
+   ScaleWidth      =   6168
    StartUpPosition =   2  'CenterScreen
    Begin VB.CommandButton Command1 
       Caption         =   "Calc"
@@ -68,24 +68,24 @@ Begin VB.Form main
    Begin VB.PictureBox Picture2 
       BorderStyle     =   0  'None
       Height          =   492
-      Left            =   720
+      Left            =   840
       Picture         =   "main.frx":0018
       ScaleHeight     =   492
       ScaleWidth      =   612
       TabIndex        =   1
-      Top             =   4680
+      Top             =   4440
       Width           =   612
    End
    Begin VB.PictureBox Picture1 
       BorderStyle     =   0  'None
       FillStyle       =   0  'Solid
       Height          =   480
-      Left            =   0
+      Left            =   120
       Picture         =   "main.frx":149A
       ScaleHeight     =   480
       ScaleWidth      =   624
       TabIndex        =   0
-      Top             =   4680
+      Top             =   4440
       Width           =   624
    End
    Begin VB.Label Label8 
@@ -97,7 +97,7 @@ Begin VB.Form main
    End
    Begin VB.Label Label7 
       Caption         =   $"main.frx":291C
-      Height          =   972
+      Height          =   852
       Left            =   1560
       TabIndex        =   15
       Top             =   4200
@@ -118,7 +118,7 @@ Begin VB.Form main
       Width           =   732
    End
    Begin VB.Label Label5 
-      Caption         =   "kgs/sm^2"
+      Caption         =   "kgf/sm^2"
       Height          =   252
       Left            =   5160
       TabIndex        =   13
@@ -207,19 +207,19 @@ Dim S As Double
 Dim R As Double
 Dim P As Double
 Dim NPD As Double
-Dim Steel As Double
+Dim STEEL As Double
 Dim ERROR As Boolean
 
 ERROR = False
 
 If IsNumeric(ComboBox1.List(ComboBox1.ListIndex)) Then
-R = ComboBox1.List(ComboBox1.ListIndex)
+D = ComboBox1.List(ComboBox1.ListIndex)
 Else
 If language = 1 Then
-D = MsgBox("Ошибка, выберите внешний диаметр!", vbOKOnly, "Ошибка")
+ERROR = MsgBox("Ошибка, выберите внешний диаметр!", vbOKOnly, "Ошибка")
 End If
 If language = 2 Then
-D = MsgBox("Error, please select outer diameter!", vbOKOnly, "Error")
+ERROR = MsgBox("Error, please select outer diameter!", vbOKOnly, "Error")
 End If
 End If
 
@@ -227,23 +227,84 @@ If IsNumeric(TextBox2.Text) Then
 S = TextBox2.Text
 Else
 If language = 1 Then
-D = MsgBox("Ошибка, введите толщину стенки!", vbOKOnly, "Ошибка")
+ERROR = MsgBox("Ошибка, введите толщину стенки!", vbOKOnly, "Ошибка")
 End If
 If language = 2 Then
-D = MsgBox("Error, please input wall thickness!", vbOKOnly, "Error")
+ERROR = MsgBox("Error, please input wall thickness!", vbOKOnly, "Error")
 End If
 End If
 
-'If language = 1 Then
-'If ComboBox2.Text = "Выберите НТД" Then
-'D = MsgBox("Ошибка, введите НТД!", vbOKOnly, "Ошибка")
-'End If
-'Else
-'NPD = 0.4 * 1
-'End If
+If language = 1 Then
+    If ComboBox2.Text = "Выберите НТД" Then
+    ERROR = MsgBox("Ошибка, введите НТД!", vbOKOnly, "Ошибка")
+    Else
+        If ComboBox2.Text = "ГОСТ" Then
+        NPD = 0.4 * 1
+        Else
+        NPD = 0.8 * 1
+        End If
+    End If
+End If
 
-if
+If language = 2 Then
+    If ComboBox2.Text = "select requirements" Then
+    ERROR = MsgBox("Error, please select type of requirements!", vbOKOnly, "Error")
+    Else
+        If ComboBox2.Text = "GOST" Then
+        NPD = 0.4 * 1
+        Else
+        NPD = 0.8 * 1
+        End If
+    End If
+End If
 
+If language = 1 Then
+    
+        Select Case ComboBox3.Text
+        Case "Сталь 10"
+        STEEL = 36
+        Case "Сталь 20"
+        STEEL = 42
+        Case "Сталь 09Г2С"
+        STEEL = 48
+        Case "Сталь 20А"
+        STEEL = 69 / 2 'it is about 34.5 but becuase there errors with . , within russian and en-us locales
+        Case "Сталь 13ХФА"
+        STEEL = 38
+        End Select
+        
+        If STEEL = 0 Then
+        ERROR = MsgBox("Ошибка, выберите сталь!", vbOKOnly, "Ошибка")
+        End If
+End If
+
+If language = 2 Then
+   
+        Select Case ComboBox3.Text
+        Case "Steel 10"
+        STEEL = 36
+        Case "Steel 20"
+        STEEL = 42
+        Case "Steel 09G2S (A516 US) 09Mn2-Si"
+        STEEL = 48
+        Case "Steel 20A"
+        STEEL = 69 / 2 'it is about 34.5 but becuase there errors with . , within russian and en-us locales
+        Case "Steel 13Cr-V A"
+        STEEL = 38
+        End Select
+        
+        If STEEL = 0 Then
+        ERROR = MsgBox("Error, please select steel!", vbOKOnly, "Error")
+        End If
+    
+End If
+
+
+If ERROR = False Then
+P = Round(200 * S * 0.875 * NPD * STEEL / (D - S), 2)
+TextBox4.Text = P
+TextBox5.Text = Round(P * 0.0980665, 2)
+End If
 End Sub
 
 Private Sub Form_Load()
@@ -326,7 +387,7 @@ Label3.Caption = "НТД"
 Label4.Caption = "Сталь"
 Label5.Caption = "кгс/см2"
 Label6.Caption = "МПа"
-Label7.Caption = "Эта программа бесплатна и распространяется под лицензией GNU GPL v2 или новее. Автор Гладышев Антон. Для получения исходников пишите gladyshev@yandex.ru. Исходники доступны github.com/areso/hydrostatic_test"
+Label7.Caption = "Эта программа бесплатна и распространяется под лицензией GNU GPL v2. Автор Гладышев Антон (gladyshev@yandex.ru), 2014. Исходники доступны github.com/areso/hydrostatic_test"
 Command1.Caption = "Рассчитать"
 main.Caption = "Расчет гидравлического давления труб"
 ComboBox2.Clear
@@ -342,9 +403,9 @@ Label1.Caption = "Outer Diamater, mm"
 Label2.Caption = "Wall thickness, mm"
 Label3.Caption = "Requirements and standarts"
 Label4.Caption = "Steel"
-Label5.Caption = "kgs/sm^2"
+Label5.Caption = "kgf/sm^2"
 Label6.Caption = "MPa"
-Label7.Caption = "This programm is free(as beer) licensed under GNU GPL v2 or above. Author is Gladyshev Anton. For sources write to gladyshev@yandex.com. Sources also available github.com/areso/hydrostatic_test"
+Label7.Caption = "This programm is free(as beer) licensed under GNU GPL v2. Author is Gladyshev Anton (gladyshev@yandex.com), 2014. Sources available github.com/areso/hydrostatic_test"
 Command1.Caption = "Calc"
 main.Caption = "Hydrostatic pressure calculator for pipes"
 ComboBox2.Clear
@@ -362,7 +423,7 @@ Label3.Caption = "НТД"
 Label4.Caption = "Сталь"
 Label5.Caption = "кгс/см2"
 Label6.Caption = "МПа"
-Label7.Caption = "Эта программа бесплатна и распространяется под лицензией GNU GPL v2 или новее. Автор Гладышев Антон. Для получения исходников пишите gladyshev@yandex.ru. Исходники доступны github.com/areso/hydrostatic_test"
+Label7.Caption = "Эта программа бесплатна и распространяется под лицензией GNU GPL v2. Автор Гладышев Антон (gladyshev@yandex.ru), 2014. Исходники доступны github.com/areso/hydrostatic_test"
 Command1.Caption = "Рассчитать"
 main.Caption = "Расчет гидравлического давления труб"
 ComboBox2.Clear
