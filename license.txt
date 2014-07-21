@@ -1,3 +1,3 @@
-The Hydrostatic Pressure test calculator for steel pipes is free (as beer) and licensed under GNU GPL v2.
+п»їThe Hydrostatic Pressure test calculator for steel pipes is free (as beer) and licensed under GNU GPL v2.
 
-Калькулятор гидростатического давления для стальных труб бесплатен и распространяется под лицензией GNU GPL v2.
+РљР°Р»СЊРєСѓР»СЏС‚РѕСЂ РіРёРґСЂРѕСЃС‚Р°С‚РёС‡РµСЃРєРѕРіРѕ РґР°РІР»РµРЅРёСЏ РґР»СЏ СЃС‚Р°Р»СЊРЅС‹С… С‚СЂСѓР± Р±РµСЃРїР»Р°С‚РµРЅ Рё СЂР°СЃРїСЂРѕСЃС‚СЂР°РЅСЏРµС‚СЃСЏ РїРѕРґ Р»РёС†РµРЅР·РёРµР№ GNU GPL v2.
