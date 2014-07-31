@@ -5,11 +5,11 @@ Begin VB.Form main
    ClientHeight    =   5148
    ClientLeft      =   36
    ClientTop       =   384
-   ClientWidth     =   6168
+   ClientWidth     =   6276
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
    ScaleHeight     =   5148
-   ScaleWidth      =   6168
+   ScaleWidth      =   6276
    StartUpPosition =   2  'CenterScreen
    Begin VB.CommandButton Command1 
       Caption         =   "Calc"
@@ -101,7 +101,7 @@ Begin VB.Form main
       Left            =   1560
       TabIndex        =   15
       Top             =   4200
-      Width           =   4332
+      Width           =   4600
    End
    Begin VB.Line Line1 
       X1              =   120
@@ -405,7 +405,7 @@ Label3.Caption = "Requirements and standarts"
 Label4.Caption = "Steel"
 Label5.Caption = "kgf/sm^2"
 Label6.Caption = "MPa"
-Label7.Caption = "This programm is free(as beer) licensed under GNU GPL v2. Author is Gladyshev Anton, gladyshev@yandex.ru , 2014. Sources available github.com/areso/hydrostatic_test"
+Label7.Caption = "This programm is free(as beer) and licensed under GNU GPL v2. Author is Gladyshev Anton, gladyshev@yandex.ru , 2014. Sources available github.com/areso/hydrostatic_test"
 Command1.Caption = "Calc"
 main.Caption = "Hydrostatic pressure calculator for pipes"
 ComboBox2.Clear
