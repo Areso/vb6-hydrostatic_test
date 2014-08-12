@@ -6,7 +6,7 @@ P TextBox4 - kgs/sm2
 P TextBox5 - MPa
 CommandButton1 - Calc!
 
-------------------------------------------------
+--------------------------------------------
 Private Sub ComboBox2_Change()
 ComboBox3.Clear
 
